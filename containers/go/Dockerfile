@@ -1,8 +1,8 @@
-FROM alpine:3.17 as build
-# install build tools
-RUN apk add go git
-RUN go env -w GOPROXY=direct
-# cache dependencies
+FROM golang:1.20.3-alpine3.17 AS build
+
+# $GOPATH/go.mod exists but should not 回避
+ENV GOPATH=
+
 ADD ./go/go.mod ./go/go.sum ./
 RUN go mod download
 # build
