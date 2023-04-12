@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  next:
+    build:
+      context: .
+      dockerfile: ./containers/nextjs/Dockerfile
+    tty: true
+    volumes:
+      - ./next:/nextjs
+      - /nextjs/node_modules
+      - /nextjs/.next
+    ports:
+      - "3000:3000"
+    entrypoint: "npm run dev"
+    environment:
+      - WATCHPACK_POLLING=true
