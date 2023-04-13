@@ -5,20 +5,20 @@ services:
     build:
       context: .
       dockerfile: ./containers/go/Dockerfile
-    ports:
-      - 8080:8080
-    command: "/main"
+    tty: true
+    volumes:
+      - ./go:/go/src
   next:
     build:
       context: .
       dockerfile: ./containers/nextjs/Dockerfile
-    #tty: true
     volumes:
       - ./next:/nextjs
+      - ./go/compiled:/go
       - /nextjs/node_modules
       - /nextjs/.next
     ports:
-      - 3000:3000
+      - 80:3000
     entrypoint: "npm run dev"
     environment:
       - WATCHPACK_POLLING=true

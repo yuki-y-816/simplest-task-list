@@ -1,13 +1,6 @@
 version: '3'
 
 services:
-  go:
-    build:
-      context: .
-      dockerfile: ./containers/go/Dockerfile
-    ports:
-      - 8080:8080
-    command: "/main"
   next:
     build:
       context: .
