@@ -1,4 +1,4 @@
-FROM node:18.15 AS builder
+FROM node:16.20.0
 WORKDIR /nextjs
 COPY ./next/ ./
 RUN npm ci

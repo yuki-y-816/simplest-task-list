@@ -14,7 +14,6 @@ services:
       dockerfile: ./containers/nextjs/Dockerfile
     volumes:
       - ./next:/nextjs
-      - ./go/compiled:/go
       - /nextjs/node_modules
       - /nextjs/.next
     ports:
