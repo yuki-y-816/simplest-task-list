@@ -1,6 +1,6 @@
-# go-sam
+# hello
 
-This is a sample template for go-sam - Below is a brief explanation of what we have generated for you:
+This is a sample template for hello - Below is a brief explanation of what we have generated for you:
 
 ```bash
 .

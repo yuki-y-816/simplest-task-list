@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-  go:
-    build:
-      context: .
-      dockerfile: ./containers/go/Dockerfile
-    tty: true
-    volumes:
-      - ./go:/go/src
+#  go:
+#    build:
+#      context: .
+#      dockerfile: ./containers/go/Dockerfile
+#    tty: true
+#    volumes:
+#      - ./go:/go/src
   next:
     build:
       context: .
