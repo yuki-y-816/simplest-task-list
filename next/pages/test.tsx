@@ -1,28 +1,47 @@
-import { GetStaticProps } from "next"
+import { GetServerSideProps } from "next"
+import { ApiURL } from "@/consts/app"
+import { Dog } from "@/components/elements/myTest/dog"
+import Link from "next/link"
 
-export const getStaticProps: GetStaticProps = async () => {
-    const res = await fetch(`${process.env.API_URL}/hello`)
-    const fetchData = await res.json()
+type fetchData = {
+    name: string | string[] | undefined,
+    age: string | string[] | undefined,
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const props: fetchData = {
+        name: context.query.name === undefined ? "yuki" : context.query.name,
+        age: context.query.age === undefined ? "33" : context.query.age,
+    }
+    const res = await fetch(`${ApiURL}/hello`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(props)
+    })
+    const fetchData:fetchData = await res.json()
 
     return {
         props: fetchData
     }
 }
 
-type fetchData = {
-    name: string,
-    age: number
-}
-
-const Test = (fetchData: fetchData) => {
+const Test = (fetchData: fetchData): JSX.Element => {
     return (
-        <div>
+        <main className="min-h-screen">
             <div className="text-red-400">this is test.</div>
             <div>
-                <p>{ fetchData.name }</p>
-                <p>{ fetchData.age }</p>
+                <p>name : { fetchData.name }</p>
+                <p>age : { fetchData.age }</p>
             </div>
-        </div>
+            <div>
+                { Dog() }
+            </div>
+            <div>
+                <Link href="/">
+                    Go to Index
+                </Link>
+            </div>
+        </main>
     )
 }
 
