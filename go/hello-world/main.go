@@ -8,18 +8,26 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type MyEvent struct {
+type Input struct {
 	Name string `json:"name"`
 }
 
 type Greeting struct {
-	str string
+	Greeting string
 }
 
-func HandleRequest(ctx context.Context, name MyEvent) (events.APIGatewayProxyResponse, error) {
+func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//return fmt.Sprintf("Hello %s!", name.Name), nil
+	var input Input
+	err := json.Unmarshal([]byte(request.Body), &input)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
+		}, err
+	}
+
 	greeting := Greeting{
-		str: fmt.Sprintf("Hello %s!", name.Name),
+		Greeting: fmt.Sprintf("Hello %s!", input.Name),
 	}
 	jsonBytes, _ := json.Marshal(greeting)
 	return events.APIGatewayProxyResponse{
