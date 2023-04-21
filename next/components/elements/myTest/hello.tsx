@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState } from "react"
+import { Alert } from "flowbite-react"
 
 export const Hello = (): JSX.Element => {
     const [inputName, setInputName] = useState("")
     const [greeting, setGreeting] = useState("")
+    const [showAlert, setShowAlert] = useState(false)
 
     const fetching = async () => {
         //const data = await fetch("http://host.docker.internal:3000/hello", {
@@ -14,11 +16,25 @@ export const Hello = (): JSX.Element => {
             .then(res => res.json())
 
         setGreeting(data.Greeting)
-        console.log(document.querySelector("input[name=name]"))
+        setShowAlert(true)
+    }
+
+    const helloAlert = () : JSX.Element | undefined => {
+        if (showAlert) {
+            return (
+                < Alert color="info"
+                    className="my-2"
+                    onDismiss={() => setShowAlert(false)}
+                >
+                    {greeting}
+                </Alert >
+            )
+        }
     }
 
     return (
         <div>
+            { helloAlert() }
             <div className="flex flex-col gap-1">
                 <div>
                     <label htmlFor="name">Your Name:</label>
@@ -31,7 +47,6 @@ export const Hello = (): JSX.Element => {
                     Say Hello
                 </button>
             </div>
-            <p className="text-xl font-semibold text-red-400">{greeting}</p>
         </div>
     )
 }
