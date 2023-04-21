@@ -23,7 +23,7 @@ export const Dog = () : JSX.Element => {
                 {imgElement()}
             </div>
             <button onClick={handleButton} className="border-2 border-black w-fit">
-                Click
+                Call a dog
             </button>
         </div>
     )

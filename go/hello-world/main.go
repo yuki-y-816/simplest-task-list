@@ -1,8 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -31,9 +31,15 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	}
 	jsonBytes, _ := json.Marshal(greeting)
 	return events.APIGatewayProxyResponse{
-        Body:       string(jsonBytes),
-        StatusCode: 200,
-    }, nil
+		Body:       string(jsonBytes),
+		StatusCode: 200,
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":      "*",
+			"Access-Control-Allow-Credentials": "true",
+			"Access-Control-Allow-Methods":     "POST, OPTIONS",
+			"Access-Control-Allow-Headers":     "Content-Type,X-CSRF-TOKEN",
+		},
+	}, nil
 }
 
 func main() {

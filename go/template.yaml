@@ -12,6 +12,25 @@ Globals:
     MemorySize: 128
 
 Resources:
+  MyHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      #DefinitionBody:
+      #  openapi: 3.0.1
+      #  info:
+      #    title: !Ref 'AWS::StackName'
+      #  paths: {}
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        #AllowCredentials: true
+        AllowMethods:
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+          - X-CSRF-TOKEN
+
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -19,11 +38,11 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        CatchAll:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        ApiEvent:
+          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            ApiId: !Ref MyHttpApi
             Path: /hello
-            #Method: GET
             Method: POST
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:

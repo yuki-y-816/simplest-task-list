@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next"
 import { ApiURL } from "@/consts/app"
 import { Dog } from "@/components/elements/myTest/dog"
+import { Hello } from "@/components/elements/myTest/hello"
 import Link from "next/link"
 
 type fetchData = {
@@ -35,6 +36,9 @@ const Test = (fetchData: fetchData): JSX.Element => {
             </div>
             <div>
                 { Dog() }
+            </div>
+            <div>
+                { Hello() }
             </div>
             <div>
                 <Link href="/">
