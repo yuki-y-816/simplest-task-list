@@ -12,12 +12,12 @@ services:
     build:
       context: .
       dockerfile: ./containers/nextjs/Dockerfile
+    tty: true
     volumes:
       - ./next:/nextjs
       - /nextjs/node_modules
       - /nextjs/.next
     ports:
       - 80:3000
-    entrypoint: "npm run dev"
     environment:
       - WATCHPACK_POLLING=true

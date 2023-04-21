@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next"
+import Head from 'next/head';
 import { ApiURL } from "@/consts/app"
 import { Dog } from "@/components/elements/myTest/dog"
 import { Hello } from "@/components/elements/myTest/hello"
@@ -28,24 +29,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Test = (fetchData: fetchData): JSX.Element => {
     return (
-        <main className="min-h-screen">
-            <div className="text-red-400">this is test.</div>
-            <div>
-                <p>name : { fetchData.name }</p>
-                <p>age : { fetchData.age }</p>
-            </div>
-            <div>
-                { Dog() }
-            </div>
-            <div>
-                { Hello() }
-            </div>
-            <div>
-                <Link href="/">
-                    Go to Index
-                </Link>
-            </div>
-        </main>
+        <>
+            <Head>
+                <title>Test</title>
+            </Head>
+            <main className="min-h-screen">
+                <div className="text-red-400">this is test.</div>
+                <div>
+                    <p>name : { fetchData.name }</p>
+                    <p>age : { fetchData.age }</p>
+                </div>
+                <div>
+                    { Dog() }
+                </div>
+                <div>
+                    { Hello() }
+                </div>
+                <div>
+                    <Link href="/">
+                        Go to Index
+                    </Link>
+                </div>
+            </main>
+        </>
     )
 }
 
