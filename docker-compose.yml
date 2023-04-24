@@ -12,6 +12,7 @@ services:
     build:
       context: .
       dockerfile: ./containers/nextjs/Dockerfile
+      target: dev
     tty: true
     volumes:
       - ./next:/nextjs
