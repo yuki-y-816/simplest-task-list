@@ -33,7 +33,7 @@ const Test = (fetchData: fetchData): JSX.Element => {
             <Head>
                 <title>Test</title>
             </Head>
-            <main className="min-h-screen">
+            <main>
                 <div className="text-red-400">this is test.</div>
                 <div>
                     <p>name : { fetchData.name }</p>
