@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Alert } from "flowbite-react"
+import { ExtApiRoute } from "@/consts/app"
 
 export const Hello = (): JSX.Element => {
     const [inputName, setInputName] = useState("")
@@ -7,15 +8,14 @@ export const Hello = (): JSX.Element => {
     const [showAlert, setShowAlert] = useState(false)
 
     const fetching = async () => {
-        //const data = await fetch("http://host.docker.internal:3000/hello", {
-        const data = await fetch("http://localhost:3000/hello", {
+        const data = await fetch(`${ExtApiRoute}/hello`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({name: inputName})
+            body: JSON.stringify({ name: inputName })
         })
             .then(res => res.json())
 
-        setGreeting(data.Greeting)
+        setGreeting(data.greeting)
         setShowAlert(true)
     }
 
