@@ -12,7 +12,7 @@ export default async function handler(
         name: req.body.name
     })
 
-    const data = await fetch(`${process.env.HELLO_API_URL}/hello`, {
+    const data = await fetch(`${process.env.API_GATEWAY_URL}/hello`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: postData
