@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { ApiGateway } from "@/consts/app"
+import { withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "@/libs/session"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "POST") {
@@ -19,15 +21,36 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             body: postData,
         }).then((res) => res.json())
 
-        if (response.authenticated === true) {
-            // Here you can handle successful authentication, e.g. setting a session or a JWT token
-            res.status(200).json({ message: "Authentication successful" })
-        } else {
-            res.status(401).json({ message: "Authentication failed" })
+        if (response.authenticated === true) { // 認証 OK
+            // session にユーザーIDを記録
+            req.session.user = {
+                id: response.data.user.id,
+            }
+            await req.session.save()
+
+            res.status(200).json({
+                succeed: true,
+                message: "Authentication successful",
+            })
+
+        } else { // 認証 NG
+            // session 破棄
+            req.session.destroy()
+
+            res.status(401).json({
+                succeed: false,
+                message: "Authentication failed",
+            })
         }
     } catch (error) {
-        res.status(500).json({ message: "Internal server error" })
+        // session 破棄
+        req.session.destroy()
+
+        res.status(500).json({
+            succeed: false,
+            message: "Internal server error",
+        })
     }
 }
 
-export default handler
+export default withIronSessionApiRoute(handler, sessionOptions)
