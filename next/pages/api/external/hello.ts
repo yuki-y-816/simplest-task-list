@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { ApiGateway } from '@/consts/app'
 
 type Data = {
     greeting: string
@@ -12,7 +13,7 @@ export default async function handler(
         name: req.body.name
     })
 
-    const data = await fetch(`${process.env.API_GATEWAY_URL}/hello`, {
+    const data = await fetch(`${ApiGateway}/hello`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: postData

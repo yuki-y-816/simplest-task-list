@@ -4,6 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+
+	"github.com/yuki-y-816/go-utils/dbconnection"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -25,6 +29,34 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 			StatusCode: 500,
 		}, err
 	}
+
+	fmt.Println("-------- start --------")
+	db := dbconnection.Connect("operator:pass@tcp(host.docker.internal:3306)/todo")
+	defer db.Close()
+
+	rows, err2 := db.Query("SELECT * FROM test")
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var (
+			id int64
+			text string
+		)
+
+		if err = rows.Scan(&id, &text); err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("id: %d, text: %s\n", id, text)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("-------- end --------")
 
 	greeting := Greeting{
 		Greeting: fmt.Sprintf("Hello %s!", input.Name),
