@@ -19,11 +19,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             body: postData,
         }).then((res) => res.json())
 
-        console.log("res from go api", response)
-        console.log("res.data from go api", response.data)
-
-        // Check authentication result
-        //if (response.data && response.data.authenticated) {
         if (response.authenticated === true) {
             // Here you can handle successful authentication, e.g. setting a session or a JWT token
             res.status(200).json({ message: "Authentication successful" })

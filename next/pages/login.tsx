@@ -29,10 +29,6 @@ const Login = (): JSX.Element => {
 
         console.log("fetched", fetched)
         console.log("input", data)
-
-        /*setTimeout(() => {
-            setIsLoading(false)
-        }, 3000)*/
     }
 
     const renderErrMessage = (message: string): JSX.Element => {
