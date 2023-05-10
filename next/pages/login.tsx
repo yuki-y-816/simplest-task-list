@@ -18,7 +18,8 @@ const Login = (): JSX.Element => {
 
     const submitFunc = async (data: FormData) => {
         setIsLoading(true)
-        // ログインのAPI呼び出しや認証処理をここに書く
+
+        // ログイン API にパラメータ渡す
         const fetched = await fetch("api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -28,11 +29,6 @@ const Login = (): JSX.Element => {
         setIsLoading(false)
 
         console.log("fetched", fetched)
-        console.log("input", data)
-
-        /*setTimeout(() => {
-            setIsLoading(false)
-        }, 3000)*/
     }
 
     const renderErrMessage = (message: string): JSX.Element => {
