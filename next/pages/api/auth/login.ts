@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { ApiGateway } from "@/consts/app"
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "@/libs/session"
+import { withSessionApi } from "@/libs/withSession"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "POST") {
@@ -21,7 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             body: postData,
         }).then((res) => res.json())
 
-        if (response.authenticated === true) { // 認証 OK
+        if (response.authenticated === true) {
+            // 認証 OK
             // session にユーザーIDを記録
             req.session.user = {
                 id: response.data.user.id,
@@ -32,8 +32,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 succeed: true,
                 message: "Authentication successful",
             })
-
-        } else { // 認証 NG
+        } else {
+            // 認証 NG
             // session 破棄
             req.session.destroy()
 
@@ -53,4 +53,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionApi(handler)
