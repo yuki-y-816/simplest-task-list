@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/yuki-y-816/go-utils/dbconnection"
 
@@ -43,6 +44,24 @@ func NewService() *Service {
 	}
 }
 
+func (s *Service) createWhereClause(filter *SearchFilter) string {
+	var query []string
+
+	if filter.Id != "" {
+		query = append(query, "AND id = :id")
+	}
+
+	if filter.Name != "" {
+		query = append(query, "AND name = :name")
+	}
+
+	if filter.Email != "" {
+		query = append(query, "AND email = :email")
+	}
+
+	return strings.Join(query, " ")
+}
+
 func (s *Service) SelectUserInfo(filter *SearchFilter) User {
 	query := `
 		SELECT
@@ -55,9 +74,7 @@ func (s *Service) SelectUserInfo(filter *SearchFilter) User {
 			1
 	`
 
-	if filter.Id != "" {
-		query += "AND id = :id"
-	}
+	query += s.createWhereClause(filter)
 
 	rows, err := s.Db.NamedQuery(query, filter)
 
