@@ -2,11 +2,30 @@ import Head from "next/head"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
+import { withSessionSsr } from "@/libs/withSession"
+import { GetServerSidePropsContext } from "next"
+import { useCheckLogin } from "@/hooks/useCheckLogin"
 
 type FormData = {
     email: string
     password: string
 }
+
+export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
+    const { req } = ctx
+
+    if (useCheckLogin(req) === true) {
+        // ログイン中であれば自分のプロフィールページへ
+        return {
+            redirect: {
+                destination: "/profile",
+                statusCode: 302,
+            },
+        }
+    }
+
+    return { props: {} }
+})
 
 const Login = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false)
