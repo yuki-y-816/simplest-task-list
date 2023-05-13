@@ -5,6 +5,7 @@ import { ErrorMessage } from "@hookform/error-message"
 import { withSessionSsr } from "@/libs/withSession"
 import { GetServerSidePropsContext } from "next"
 import { useCheckLogin } from "@/hooks/useCheckLogin"
+import { useRouter } from "next/router"
 
 type FormData = {
     email: string
@@ -29,6 +30,7 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
 
 const Login = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -47,7 +49,9 @@ const Login = (): JSX.Element => {
 
         setIsLoading(false)
 
-        console.log("fetched", fetched)
+        if (fetched.succeed === true) {
+            router.push("/todo")
+        }
     }
 
     const renderErrMessage = (message: string): JSX.Element => {
@@ -74,11 +78,13 @@ const Login = (): JSX.Element => {
                                         required: "Please fill in Email.",
                                     })}
                                 />
-                                <ErrorMessage
-                                    name="email"
-                                    errors={errors}
-                                    render={({ message }) => renderErrMessage(message)}
-                                />
+                                <div data-testid="error-email">
+                                    <ErrorMessage
+                                        name="email"
+                                        errors={errors}
+                                        render={({ message }) => renderErrMessage(message)}
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <label htmlFor="password">Password</label>
@@ -93,11 +99,13 @@ const Login = (): JSX.Element => {
                                         },
                                     })}
                                 />
-                                <ErrorMessage
-                                    name="password"
-                                    errors={errors}
-                                    render={({ message }) => renderErrMessage(message)}
-                                />
+                                <div data-testid="error-password">
+                                    <ErrorMessage
+                                        name="password"
+                                        errors={errors}
+                                        render={({ message }) => renderErrMessage(message)}
+                                    />
+                                </div>
                             </div>
                             <button type="submit" disabled={isLoading}>
                                 {isLoading ? "Loading..." : "Login"}
