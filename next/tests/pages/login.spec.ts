@@ -13,7 +13,7 @@ const getLoginBtn = (page: Page) =>{
 }
 
 test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:3000/login")
+    await page.goto("http://localhost:3030/login")
 })
 
 test("タイトルが'Login'である", async ({ page }) => {
@@ -80,7 +80,7 @@ test.describe("Loginボタン押下後の処理について", () => {
             await inputPassword.fill("password")
             await loginBtn.click()
 
-            await expect(page).toHaveURL("http://localhost:3000/todo")
+            await expect(page).toHaveURL("http://localhost:3030/todo")
         })
     })
 })
