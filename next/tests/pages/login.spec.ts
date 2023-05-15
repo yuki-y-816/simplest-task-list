@@ -13,7 +13,7 @@ const getLoginBtn = (page: Page) =>{
 }
 
 test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:3030/login")
+    await page.goto("/login")
 })
 
 test("タイトルが'Login'である", async ({ page }) => {
