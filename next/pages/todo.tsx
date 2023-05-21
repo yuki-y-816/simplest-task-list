@@ -3,6 +3,7 @@ import React from "react"
 import { withSessionSsr } from "@/libs/withSession"
 import { useCheckLogin } from "@/hooks/useCheckLogin"
 import { GetServerSidePropsContext } from "next"
+import Link from "next/link"
 
 export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
     const { req } = ctx
@@ -28,6 +29,7 @@ const Todo = (): JSX.Element => {
             </Head>
             <main>
                 <p>Todo</p>
+                <Link href="/profile">Profile</Link>
             </main>
         </>
     )
