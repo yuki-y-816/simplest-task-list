@@ -12,6 +12,10 @@ test.describe("ログイン中", () => {
         await login(page)
     })
 
+    test("/todo にいる", async ({ page }) => {
+        await expect(page).toHaveURL("/todo")
+    })
+
     test("タイトルが'Todo'である", async ({ page }) => {
         await expect(page).toHaveTitle("Todo")
     })

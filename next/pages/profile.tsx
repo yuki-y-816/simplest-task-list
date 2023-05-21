@@ -2,13 +2,8 @@ import React from "react"
 import { GetServerSidePropsContext } from "next"
 import { LogoutButton } from "@/components/auth/logoutButton"
 import { withSessionSsr } from "@/libs/withSession"
-import { ApiURL } from "@/consts/app"
-
-type User = {
-    id: string
-    name: string
-    email: string
-}
+import { getUser } from "@/features/user/api/getUser"
+import { User } from "@/features/user/types"
 
 type SsrProps = {
     succeed: boolean
@@ -17,25 +12,18 @@ type SsrProps = {
 
 export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
     const { req } = ctx
-    const postData = {
-        id: req.session.user?.id,
-    }
-
-    const fetched = await fetch(`${ApiURL}/user/info`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData),
-    }).then((res) => res.json())
+    const userId = req.session.user?.id
+    const user = await getUser(userId)
 
     let succeed: boolean = false
 
-    if (fetched.succeed === true && fetched.data.id !== "") {
+    if (user.succeed === true && user.data.id !== "") {
         succeed = true
     }
 
     const props: SsrProps = {
         succeed: succeed,
-        user: fetched.data,
+        user: user.data,
     }
 
     return {
@@ -61,7 +49,7 @@ const profileFiled = (user: User): JSX.Element => {
 const noDataField = (): JSX.Element => {
     return (
         <div>
-            <p>
+            <p data-testid="txt-no-user">
                 Sorry, we may have failed to retrieve your user data.
                 <br />
                 Try logging out, logging back in, and then trying to access it again.
