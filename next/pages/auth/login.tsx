@@ -1,17 +1,13 @@
 import Head from "next/head"
 import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { ErrorMessage } from "@hookform/error-message"
-import { withSessionSsr } from "@/libs/withSession"
-import { GetServerSidePropsContext } from "next"
-import { useCheckLogin } from "@/hooks/useCheckLogin"
 import { useRouter } from "next/router"
+import { useForm } from "react-hook-form"
+import type { GetServerSidePropsContext } from "next"
+import { withSessionSsr } from "@/libs/withSession"
+import { useCheckLogin } from "@/hooks/useCheckLogin"
 import { ApiURL } from "@/consts/app"
-
-type FormData = {
-    email: string
-    password: string
-}
+import type { FormFillable } from "@/features/auth/types"
+import { EmailForm, PasswordForm } from "@/features/auth/components/inputForm"
 
 export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
     const { req } = ctx
@@ -32,13 +28,10 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
 const Login = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FormData>()
+    const form = useForm<FormFillable>()
+    const { handleSubmit } = form
 
-    const submitFunc = async (data: FormData) => {
+    const submitFunc = async (data: FormFillable) => {
         setIsLoading(true)
 
         // ログイン API にパラメータ渡す
@@ -55,10 +48,6 @@ const Login = (): JSX.Element => {
         }
     }
 
-    const renderErrMessage = (message: string): JSX.Element => {
-        return <p className="text-red-400">{message}</p>
-    }
-
     return (
         <>
             <Head>
@@ -69,45 +58,8 @@ const Login = (): JSX.Element => {
                     <p>Login</p>
                     <div>
                         <form onSubmit={handleSubmit(submitFunc)}>
-                            <div>
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    autoComplete="off"
-                                    {...register("email", {
-                                        required: "Please fill in Email.",
-                                    })}
-                                />
-                                <div data-testid="error-email">
-                                    <ErrorMessage
-                                        name="email"
-                                        errors={errors}
-                                        render={({ message }) => renderErrMessage(message)}
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    {...register("password", {
-                                        required: "Please fill in Password.",
-                                        minLength: {
-                                            value: 5,
-                                            message: "Password must be at least 5 characters.",
-                                        },
-                                    })}
-                                />
-                                <div data-testid="error-password">
-                                    <ErrorMessage
-                                        name="password"
-                                        errors={errors}
-                                        render={({ message }) => renderErrMessage(message)}
-                                    />
-                                </div>
-                            </div>
+                            {EmailForm(form)}
+                            {PasswordForm(form)}
                             <button type="submit" disabled={isLoading}>
                                 {isLoading ? "Loading..." : "Login"}
                             </button>
