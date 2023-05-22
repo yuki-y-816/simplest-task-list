@@ -6,6 +6,7 @@ import { withSessionSsr } from "@/libs/withSession"
 import { GetServerSidePropsContext } from "next"
 import { useCheckLogin } from "@/hooks/useCheckLogin"
 import { useRouter } from "next/router"
+import { ApiURL } from "@/consts/app"
 
 type FormData = {
     email: string
@@ -41,7 +42,7 @@ const Login = (): JSX.Element => {
         setIsLoading(true)
 
         // ログイン API にパラメータ渡す
-        const fetched = await fetch("api/auth/login", {
+        const fetched = await fetch(`${ApiURL}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

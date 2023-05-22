@@ -8,12 +8,12 @@ const getInputPassword = (page: Page) => {
     return page.locator("input#password")
 }
 
-const getLoginBtn = (page: Page) =>{
+const getLoginBtn = (page: Page) => {
     return page.getByRole("button", { name: "Login" })
 }
 
 test.beforeEach(async ({ page }) => {
-    await page.goto("/login")
+    await page.goto("/auth/login")
 })
 
 test("タイトルが'Login'である", async ({ page }) => {

@@ -8,7 +8,7 @@ export const LogoutButton = (): JSX.Element => {
         const result = await fetch("api/auth/logout").then((res) => res.json())
 
         if (result.succeed === true) {
-            router.replace("/login")
+            router.replace("/auth/login")
         }
     }
 

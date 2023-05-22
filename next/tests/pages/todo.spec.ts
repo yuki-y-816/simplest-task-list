@@ -4,7 +4,7 @@ import { login } from "@/tests/utils/utils"
 test("未ログインだと /login にリダイレクトされる", async ({ page }) => {
     await page.goto("/todo")
 
-    await expect(page).toHaveURL("/login")
+    await expect(page).toHaveURL("/auth/login")
 })
 
 test.describe("ログイン中", () => {
