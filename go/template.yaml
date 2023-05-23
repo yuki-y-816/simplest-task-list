@@ -48,6 +48,32 @@ Resources:
       DockerContext: .
       Dockerfile: Dockerfile
 
+  SignupFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageConfig:
+        Command: ["signup"]
+      Architectures:
+        - x86_64
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref MyHttpApi
+            Path: /signup
+            Method: POST
+      Environment:
+        Variables:
+          DB_USER:
+          DB_PASSWORD:
+          DB_HOST:
+          DB_DATABASE:
+    Metadata:
+      DockerTag: go1.x-v1
+      DockerContext: .
+      Dockerfile: Dockerfile
+
   LoginFunction:
     Type: AWS::Serverless::Function
     Properties:
