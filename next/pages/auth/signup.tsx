@@ -5,26 +5,45 @@ import { useForm } from "react-hook-form"
 import { ApiURL } from "@/consts/app"
 import type { FormFillable } from "@/features/auth/types"
 import { EmailForm, NameForm, PasswordForm } from "@/features/auth/components/inputForm"
+import { useRouter } from "next/router"
 
 const Signup = (): JSX.Element => {
     const [isCreating, setIsCreating] = useState(false)
     const form: UseFormReturn<FormFillable> = useForm<FormFillable>()
-    const { handleSubmit } = form
+    const { handleSubmit, setError } = form
+    const router = useRouter()
     const submitFunc: SubmitHandler<FormFillable> = async (data: FormFillable) => {
         setIsCreating(true)
-        console.log("filled-->", data)
 
         // サインイン API にパラメータ渡す
         const fetched = await fetch(`${ApiURL}/auth/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
-        }).then((res) => res.json())
-
-        console.log("fetched-->", fetched)
+        }).then(async(res) => {
+            return {
+                status: res.status,
+                body: await res.json()
+            }
+        })
 
         setIsCreating(false)
+
+        if (fetched.status === 409) {
+            // メールアドレスの重複
+            setError(
+                "email",
+                { message: "This email address is already in use." },
+                { shouldFocus: true }
+            )
+        }
+
+        if (fetched.body.succeed === true) {
+            // ユーザー作成に成功した場合はページ遷移
+            router.push("/todo")
+        }
     }
+
 
     return (
         <>
