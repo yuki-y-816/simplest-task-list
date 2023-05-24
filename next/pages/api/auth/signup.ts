@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             name: input.name,
             email: input.email,
             password: input.password,
-        }
+        },
     })
 
     try {
@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: postData,
-        }).then((res) =>  res.json())
+        }).then((res) => res.json())
 
         if (response.id === undefined) {
             // ユーザー作成失敗
@@ -36,14 +36,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         // session にユーザーIDを記録
         req.session.user = {
-            id: response.id
+            id: response.id,
         }
         await req.session.save()
 
         res.status(200).json({
             succeed: true,
         })
-
     } catch (error) {
         // session 破棄
         req.session.destroy()

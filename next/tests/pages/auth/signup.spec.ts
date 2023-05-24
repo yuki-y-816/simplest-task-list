@@ -7,13 +7,13 @@ class PageUtil {
     constructor(page: Page) {
         this.page = page
     }
-    getInputName = (): Locator => {
+    getNameField = (): Locator => {
         return this.page.locator("input#name")
     }
-    getInputEmail = (): Locator => {
+    getEmailField = (): Locator => {
         return this.page.locator("input#email")
     }
-    getInputPassword = (): Locator => {
+    getPasswordField = (): Locator => {
         return this.page.locator("input#password")
     }
     getErrContainer = (id: string): Locator => {
@@ -35,7 +35,7 @@ test("タイトルが'SignUp'である", async ({ page }) => {
 test.describe("Name inputフォームの挙動について", () => {
     test("未入力だとエラーメッセージが表示される", async ({ page }) => {
         const pageUtil = new PageUtil(page)
-        const inputForm = pageUtil.getInputName()
+        const inputForm = pageUtil.getNameField()
         const submitBtn = pageUtil.getSubmitBtn()
         const errContainer = pageUtil.getErrContainer("error-name")
         const regex = /fill in/
@@ -50,7 +50,7 @@ test.describe("Name inputフォームの挙動について", () => {
 
     test("21文字以上だとエラーメッセージが表示される", async ({ page }) => {
         const pageUtil = new PageUtil(page)
-        const inputForm = pageUtil.getInputName()
+        const inputForm = pageUtil.getNameField()
         const submitBtn = pageUtil.getSubmitBtn()
         const errContainer = pageUtil.getErrContainer("error-name")
         const regex = /20 characters or less/
@@ -70,7 +70,7 @@ test.describe("Name inputフォームの挙動について", () => {
 test.describe("Email inputフォームの挙動について", () => {
     test("未入力だとエラーメッセージが表示される", async ({ page }) => {
         const pageUtil = new PageUtil(page)
-        const inputForm = pageUtil.getInputEmail()
+        const inputForm = pageUtil.getEmailField()
         const submitBtn = pageUtil.getSubmitBtn()
         const errContainer = pageUtil.getErrContainer("error-email")
         const regex = /fill in/
@@ -82,12 +82,31 @@ test.describe("Email inputフォームの挙動について", () => {
 
         await expect(errContainer).toHaveText(regex)
     })
+
+    test("メールアドレスに重複があるとエラーメッセージが表示される", async ({ page }) => {
+        const pageUtil = new PageUtil(page)
+        const nameField = pageUtil.getNameField()
+        const emailField = pageUtil.getEmailField()
+        const passField = pageUtil.getPasswordField()
+        const submitBtn = pageUtil.getSubmitBtn()
+        const errContainer = pageUtil.getErrContainer("error-email")
+        const regex = /already in use/
+
+        await expect(errContainer).not.toHaveText(regex)
+
+        await nameField.fill("somebody")
+        await emailField.fill("test@test.com")
+        await passField.fill("password")
+        await submitBtn.click()
+
+        await expect(errContainer).toHaveText(regex)
+    })
 })
 
 test.describe("Password inputフォームの挙動について", () => {
     test("未入力だとエラーメッセージが表示される", async ({ page }) => {
         const pageUtil = new PageUtil(page)
-        const inputForm = pageUtil.getInputPassword()
+        const inputForm = pageUtil.getPasswordField()
         const submitBtn = pageUtil.getSubmitBtn()
         const errContainer = pageUtil.getErrContainer("error-password")
         const regex = /fill in/
@@ -102,7 +121,7 @@ test.describe("Password inputフォームの挙動について", () => {
 
     test("5文字未満だとエラーメッセージが表示される", async ({ page }) => {
         const pageUtil = new PageUtil(page)
-        const inputForm = pageUtil.getInputPassword()
+        const inputForm = pageUtil.getPasswordField()
         const submitBtn = pageUtil.getSubmitBtn()
         const errContainer = pageUtil.getErrContainer("error-password")
         const regex = /at least 5 characters/
@@ -116,5 +135,24 @@ test.describe("Password inputフォームの挙動について", () => {
         await inputForm.clear()
         await inputForm.fill("a".repeat(5))
         await expect(errContainer).not.toHaveText(regex)
+    })
+})
+
+test.describe("全てのフォームに正しい入力がある場合", () => {
+    test.beforeEach(async ({ page }) => {
+        const pageUtil = new PageUtil(page)
+        const nameField = pageUtil.getNameField()
+        const emailField = pageUtil.getEmailField()
+        const passField = pageUtil.getPasswordField()
+        const submitBtn = pageUtil.getSubmitBtn()
+
+        await nameField.fill("somebody")
+        await emailField.fill("some@address.com")
+        await passField.fill("password")
+        await submitBtn.click()
+    })
+
+    test("/todo ページに遷移する", async ({ page }) => {
+        await expect(page).toHaveURL("/todo")
     })
 })

@@ -20,10 +20,10 @@ const Signup = (): JSX.Element => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
-        }).then(async(res) => {
+        }).then(async (res) => {
             return {
                 status: res.status,
-                body: await res.json()
+                body: await res.json(),
             }
         })
 
@@ -31,11 +31,7 @@ const Signup = (): JSX.Element => {
 
         if (fetched.status === 409) {
             // メールアドレスの重複
-            setError(
-                "email",
-                { message: "This email address is already in use." },
-                { shouldFocus: true }
-            )
+            setError("email", { message: "This email address is already in use." }, { shouldFocus: true })
         }
 
         if (fetched.body.succeed === true) {
@@ -43,7 +39,6 @@ const Signup = (): JSX.Element => {
             router.push("/todo")
         }
     }
-
 
     return (
         <>
