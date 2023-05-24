@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test"
-import { login } from "@/tests/utils/utils"
+import { login } from "@/tests/utils/action"
 
 test("未ログインだと /login にリダイレクトされる", async ({ page }) => {
     await page.goto("/todo")
 
-    await expect(page).toHaveURL("/login")
+    await expect(page).toHaveURL("/auth/login")
 })
 
 test.describe("ログイン中", () => {

@@ -12,7 +12,7 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
     if (useCheckLogin(req) === false) {
         return {
             redirect: {
-                destination: "/login",
+                destination: "/auth/login",
                 statusCode: 302,
             },
         }

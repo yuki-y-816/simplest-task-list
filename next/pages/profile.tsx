@@ -1,6 +1,6 @@
 import React from "react"
 import { GetServerSidePropsContext } from "next"
-import { LogoutButton } from "@/components/auth/logoutButton"
+import { LogoutButton } from "@/features/auth/components/logoutButton"
 import { withSessionSsr } from "@/libs/withSession"
 import { getUser } from "@/features/user/api/getUser"
 import { User } from "@/features/user/types"
