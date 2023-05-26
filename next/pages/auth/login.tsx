@@ -1,10 +1,10 @@
 import Head from "next/head"
 import { useState } from "react"
 import { useRouter } from "next/router"
-import { useForm } from "react-hook-form"
+import { useForm, type SubmitHandler } from "react-hook-form"
 import type { GetServerSidePropsContext } from "next"
 import { withSessionSsr } from "@/libs/withSession"
-import { useCheckLogin } from "@/hooks/useCheckLogin"
+import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
 import { ApiURL } from "@/consts/app"
 import type { FormFillable } from "@/features/auth/types"
 import { EmailForm, PasswordForm } from "@/features/auth/components/inputForm"
@@ -31,7 +31,7 @@ const Login = (): JSX.Element => {
     const form = useForm<FormFillable>()
     const { handleSubmit } = form
 
-    const submitFunc = async (data: FormFillable) => {
+    const submitFunc: SubmitHandler<FormFillable> = async (data) => {
         setIsLoading(true)
 
         // ログイン API にパラメータ渡す
