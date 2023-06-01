@@ -37,9 +37,7 @@ export const Header = (): JSX.Element => {
 
     return (
         <Navbar fluid={true} rounded={true}>
-            <Navbar.Brand href="/index">
-                <span>SIMPLE TO DO</span>
-            </Navbar.Brand>
+            <Navbar.Brand href="/">SIMPLE TO DO</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>{navLinks}</Navbar.Collapse>
         </Navbar>
