@@ -11,8 +11,8 @@ import (
 )
 
 type Input struct {
-	Method string            `json:"method"`
-	Filter data.SearchFilter `json:"filter"`
+	Method string      `json:"method"`
+	Filter data.Filter `json:"filter"`
 }
 
 func HandleRequest(
@@ -29,12 +29,15 @@ func HandleRequest(
 		}, err
 	}
 
-	service := data.NewService()
-	defer service.Db.Close()
+	// service := data.NewService()
+	// defer service.Db.Close()
+	db := data.NewDB()
+	defer db.Close()
 
 	switch input.Method {
 	case "select":
-		user = service.SelectUserInfo(&input.Filter)
+		// user = service.SelectUserInfo(&input.Filter)
+		user = db.SelectUserInfo(&input.Filter)
 	default:
 	}
 
