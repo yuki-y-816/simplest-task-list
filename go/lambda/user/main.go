@@ -21,6 +21,7 @@ func HandleRequest(
 ) (events.APIGatewayProxyResponse, error) {
 	var input Input
 	var user data.User
+	var jsonBytes []byte
 
 	err := json.Unmarshal([]byte(request.Body), &input)
 	if err != nil {
@@ -29,19 +30,23 @@ func HandleRequest(
 		}, err
 	}
 
-	// service := data.NewService()
-	// defer service.Db.Close()
 	db := data.NewDB()
 	defer db.Close()
 
 	switch input.Method {
 	case "select":
-		// user = service.SelectUserInfo(&input.Filter)
 		user = db.SelectUserInfo(&input.Filter)
+		jsonBytes, _ = json.Marshal(user)
+
+	case "update":
+		err := db.UpdateUserInfo(&input.Filter)
+		if err != nil {
+			return events.APIGatewayProxyResponse{
+				StatusCode: 500,
+			}, err
+		}
 	default:
 	}
-
-	jsonBytes, _ := json.Marshal(user)
 
 	return events.APIGatewayProxyResponse{
 		Body:       string(jsonBytes),

@@ -1,9 +1,15 @@
-import React from "react"
+import { useState } from "react"
 import { GetServerSidePropsContext } from "next"
 import { LogoutButton } from "@/features/auth/components/logoutButton"
 import { withSessionSsr } from "@/libs/withSession"
 import { getUser } from "@/features/user/api/getUser"
+import { updateUser } from "@/features/user/api/updateUser"
 import { User } from "@/features/user/types"
+import { PencilIcon } from "@/components/elements/icons"
+import { NameForm } from "@/features/auth/components/inputForm"
+import type { FormFillable } from "@/features/auth/types"
+import { useForm, type SubmitHandler } from "react-hook-form"
+import { Modal } from "flowbite-react"
 
 type SsrProps = {
     succeed: boolean
@@ -32,17 +38,59 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
 })
 
 const profileFiled = (user: User): JSX.Element => {
+    const recordClass = "grid grid-cols-5 md:grid-cols-12 gap-4"
+    const fieldNameClass = "grid-span-1 text-right font-bold"
+    const fieldValClass = "col-start-2 col-end-[-1]"
+
+    const renameForm = useForm<FormFillable>({
+        defaultValues: { name: user.name },
+    })
+    const { handleSubmit } = renameForm
+    const [openModal, setOpenModal] = useState<boolean>(false)
+    const props = { openModal, setOpenModal }
+    const renameFunc: SubmitHandler<FormFillable> = async (data) => {
+        props.setOpenModal(false)
+
+        // API に変更した名前をPOSTする
+        updateUser({
+            id: user.id,
+            name: data.name,
+            email: "",
+        })
+
+        // 表示を変更したものにきりかえる
+        user.name = data.name
+    }
+
     return (
-        <div>
+        <>
             <div>
-                <div>Name</div>
-                <div>{user.name}</div>
+                <div className={recordClass}>
+                    <p className={fieldNameClass}>Name</p>
+                    <p className={fieldValClass}>
+                        {user.name}
+                        <PencilIcon
+                            onClick={() => props.setOpenModal(true)}
+                            className="inline-block cursor-pointer mx-4 fill-gray-500"
+                        />
+                    </p>
+                </div>
+                <div className={recordClass}>
+                    <p className={fieldNameClass}>Email</p>
+                    <p className={fieldValClass}>{user.email}</p>
+                </div>
             </div>
-            <div>
-                <div>Email</div>
-                <div>{user.email}</div>
-            </div>
-        </div>
+            <Modal dismissible show={props.openModal} onClose={() => props.setOpenModal(false)}>
+                <Modal.Body>
+                    <form onSubmit={handleSubmit(renameFunc)}>
+                        {NameForm(renameForm)}
+                        <button type="submit" className="border-2 border-black">
+                            Rename
+                        </button>
+                    </form>
+                </Modal.Body>
+            </Modal>
+        </>
     )
 }
 
@@ -70,9 +118,11 @@ export const Profile = (props: SsrProps): JSX.Element => {
 
     return (
         <>
-            <div>Profile</div>
-            <div>{getElementContent()}</div>
-            <div>{LogoutButton()}</div>
+            <div className="w-4/5 mx-auto">
+                <div className="text-2xl font-bold">Profile</div>
+                <div>{getElementContent()}</div>
+                <div>{LogoutButton()}</div>
+            </div>
         </>
     )
 }

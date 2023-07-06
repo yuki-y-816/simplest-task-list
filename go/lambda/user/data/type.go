@@ -11,12 +11,14 @@ import (
 
 type DB struct{ *sqlx.DB }
 
-type Filter struct {
+type User struct {
 	Id       string `json:"id" db:"id"`
 	Name     string `json:"name" db:"name"`
 	Email    string `json:"email" db:"email"`
 	Password string `json:"password" db:"password"`
 }
+
+type Filter User
 
 func NewDB() DB {
 	db := dbconnection.Connect(getDns())
