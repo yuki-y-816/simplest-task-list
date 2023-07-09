@@ -5,15 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/DATA-DOG/go-txdb"
 	"github.com/jmoiron/sqlx"
 )
-
-func TestMain(m *testing.M) {
-	txdb.Register("txdb", "mysql", "operator:pass@tcp(host.docker.internal:3306)/todo")
-
-	m.Run()
-}
 
 func TestService_createWhereClause(t *testing.T) {
 	type Args struct {
