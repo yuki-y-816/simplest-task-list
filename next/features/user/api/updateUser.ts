@@ -1,7 +1,7 @@
 import { ApiGateway } from "@/consts/app"
 import { User } from "@/features/user/types"
 
-export const updateUser = async (user: User) => {
+export const updateUser = async (user: User)=> {
     const postData = JSON.stringify({
         method: "update",
         filter: {

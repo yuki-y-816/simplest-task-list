@@ -1,6 +1,7 @@
 import { rest } from "msw"
+import { ApiGateway } from "@/consts/app"
 
-const apiURL = "http://host.docker.internal:3000"
+const apiURL = ApiGateway
 const testUser = {
     id: "8n3CeEjw",
     name: "Yuki",
@@ -45,6 +46,10 @@ export const handlers = [
 
         if (posted.method === "select") {
             return res(ctx.json(testUser))
+        }
+
+        if (posted.method === "update") {
+            return res()
         }
     }),
 ]

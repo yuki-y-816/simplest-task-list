@@ -29,4 +29,8 @@ export class AuthInputUtil {
     getLoginBtn = (): Locator => {
         return this.page.getByRole("button", { name: "Login" })
     }
+
+    getRenameBtn = (): Locator => {
+        return this.page.getByRole("button", {name: "Rename"})
+    }
 }

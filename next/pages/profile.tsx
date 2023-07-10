@@ -70,6 +70,7 @@ const profileFiled = (user: User): JSX.Element => {
                     <p className={fieldValClass}>
                         {user.name}
                         <PencilIcon
+                            id="rename-pencil-icon"
                             onClick={() => props.setOpenModal(true)}
                             className="inline-block cursor-pointer mx-4 fill-gray-500"
                         />
