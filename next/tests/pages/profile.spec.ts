@@ -1,5 +1,6 @@
 import { test, expect, Page } from "@playwright/test"
 import { login } from "@/tests/utils/action"
+import { AuthInputUtil } from "../utils/class/auth"
 
 test.describe("未ログイン", () => {
     test.beforeEach(async ({ page }) => {
@@ -37,11 +38,29 @@ test.describe("ログイン中", () => {
 
     test("プロフィールが正しく表示されている", async ({ page }) => {
         // 名前
-        await expect(page.getByText("Name")).toBeVisible()
         await expect(page.getByText("Yuki")).toBeVisible()
         // メールアドレス
-        await expect(page.getByText("Email")).toBeVisible()
         await expect(page.getByText("test@test.com")).toBeVisible()
+    })
+
+    test.describe("プロフィール更新機能", () => {
+        test("正しく Name が変更される", async ({ page }) => {
+            const util = new AuthInputUtil(page)
+            const nameField = util.getNameField()
+            const renameBtn = util.getRenameBtn()
+            const pencilIcon = page.locator("#rename-pencil-icon")
+
+            await expect(page.getByText("Yuki")).toBeVisible()
+            await expect(page.getByText("OtherName")).not.toBeVisible()
+
+            await pencilIcon.click()
+            await nameField.fill("OtherName")
+            await renameBtn.click()
+
+            await expect(page.getByText("Yuki")).not.toBeVisible()
+            await expect(page.getByText("OtherName")).toBeVisible()
+
+        })
     })
 })
 
