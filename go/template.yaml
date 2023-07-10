@@ -25,29 +25,6 @@ Resources:
           - Content-Type
           - X-CSRF-TOKEN
 
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      PackageType: Image
-      ImageConfig:
-        Command: ["hello-world"]
-      Architectures:
-        - x86_64
-      Events:
-        ApiEvent:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref MyHttpApi
-            Path: /hello
-            Method: POST
-      Environment:
-        Variables:
-          PARAM1: VALUE
-    Metadata:
-      DockerTag: go1.x-v1
-      DockerContext: .
-      Dockerfile: Dockerfile
-
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
