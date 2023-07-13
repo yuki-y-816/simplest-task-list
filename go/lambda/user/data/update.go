@@ -12,7 +12,7 @@ func (db DB) UpdateUserInfo(filter *Filter) error {
 
 	query := fmt.Sprintf(`
         UPDATE
-            user
+            users
         SET
             %s
         WHERE

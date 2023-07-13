@@ -30,7 +30,7 @@ func (db DB) SelectUserInfo(filter *Filter) User {
 			name,
 			email
 		FROM
-			user
+			users
 		WHERE
 			1
 	`
