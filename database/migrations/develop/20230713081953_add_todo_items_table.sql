@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS todo_items (
     user_id varchar(8) NOT NULL,
     task varchar(255) NOT NULL DEFAULT "",
     created_at datetime NOT NULL DEFAULT NOW(),
-    updated_at datetime,
+    updated_at datetime NOT NULL DEFAULT NOW(),
     PRIMARY KEY(id),
     FOREIGN KEY fk_user_id(user_id) REFERENCES users(id)
 );

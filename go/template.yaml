@@ -103,6 +103,32 @@ Resources:
       DockerContext: .
       Dockerfile: Dockerfile
 
+  TodoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageConfig:
+        Command: ["todo"]
+      Architectures:
+        - x86_64
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref MyHttpApi
+            Path: /todo
+            Method: POST
+      Environment:
+        Variables:
+          DB_USER:
+          DB_PASSWORD:
+          DB_HOST:
+          DB_DATABASE:
+    Metadata:
+      DockerTag: go1.x-v1
+      DockerContext: .
+      Dockerfile: Dockerfile
+
 Outputs:
   HttpApiUrl:
     Description: "The URL of the HttpApi endpoint."
