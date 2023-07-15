@@ -12,11 +12,15 @@ CREATE TABLE IF NOT EXISTS todo_items (
 
 INSERT INTO todo_items (
     user_id,
-    task
+    task,
+    created_at,
+    updated_at
 )
 VALUES (
     "8n3CeEjw",
-    "this is test task"
+    "this is test task",
+    "2023-07-7 07:07:07",
+    "2023-07-7 07:07:07"
 );
 -- +goose StatementEnd
 

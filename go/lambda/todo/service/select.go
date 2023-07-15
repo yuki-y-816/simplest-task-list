@@ -1,6 +1,9 @@
 package service
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 func (db DB) createWhereClause(item *Item) string {
 	var query []string
@@ -25,7 +28,11 @@ func (db DB) SelectTodoItems(item *Item) (TodoItems, error) {
             1
     `
 
-	query += db.createWhereClause(item)
+	where := db.createWhereClause(item)
+	if where == "" {
+		return todoItems, fmt.Errorf("not filtered")
+	}
+	query += where
 
 	rows, err := db.NamedQuery(query, item)
 	if err != nil {
