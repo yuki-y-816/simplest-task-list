@@ -19,4 +19,10 @@ test.describe("ログイン中", () => {
     test("タイトルが'Todo'である", async ({ page }) => {
         await expect(page).toHaveTitle("Todo")
     })
+
+    test("タスクが表示されている", async ({ page }) => {
+        const task = await page.getByText("this is test task")
+
+        await expect(task).toBeVisible()
+    })
 })

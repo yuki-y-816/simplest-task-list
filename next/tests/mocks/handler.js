@@ -1,5 +1,6 @@
 import { rest } from "msw"
 import { ApiGateway } from "@/consts/app"
+import { TodoItems } from "@/features/todo/types"
 
 const apiURL = ApiGateway
 const testUser = {
@@ -7,6 +8,13 @@ const testUser = {
     name: "Yuki",
     email: "test@test.com",
 }
+const testTodoItems = [
+    {
+        userId: testUser.id,
+        task: "this is test task",
+        updatedAt: "2023-07-7 07:07:07",
+    },
+]
 
 export const handlers = [
     rest.post(`${apiURL}/signup`, async (req, res, ctx) => {
@@ -50,6 +58,14 @@ export const handlers = [
 
         if (posted.method === "update") {
             return res()
+        }
+    }),
+
+    rest.post(`${apiURL}/todo`, async (req, res, ctx) => {
+        const posted = await req.json()
+
+        if (posted.method === "select") {
+            return res(ctx.json(testTodoItems))
         }
     }),
 ]
