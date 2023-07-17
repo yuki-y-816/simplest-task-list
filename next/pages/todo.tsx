@@ -1,8 +1,12 @@
 import Head from "next/head"
-import React from "react"
+import { GetServerSidePropsContext } from "next"
 import { withSessionSsr } from "@/libs/withSession"
 import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
-import { GetServerSidePropsContext } from "next"
+import useGetItems from "@/features/todo/hooks/useGetItems"
+import { TodoItems } from "@/features/todo/types"
+
+type SsrProps = { items: TodoItems }
+type TaskProps = { itemData: TodoItems }
 
 export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
     const { req } = ctx
@@ -17,17 +21,37 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
         }
     }
 
-    return { props: {} }
+    const items = await useGetItems(req.session.user?.id)
+
+    return { props: { items: items } }
 })
 
-const Todo = (): JSX.Element => {
+const Tasks = (props: TaskProps): JSX.Element => {
+    const data = props.itemData
+    if (data.length === 0) {
+        return <p>Tasks have not been added yet</p>
+    }
+
+    const items = data.map((item) => {
+        return (
+            <li className="border border-black rounded-md">
+                <p className="mx-3 overflow-x-auto my-2">{item.task}</p>
+            </li>
+        )
+    })
+
+    return <ul className="my-3">{items}</ul>
+}
+
+const Todo = (props: SsrProps): JSX.Element => {
     return (
         <>
             <Head>
                 <title>Todo</title>
             </Head>
-            <main>
-                <p>Todo</p>
+            <main className="lg:w-3/5 mx-auto my-4 px-8">
+                <div className="text-2xl font-bold">Todo</div>
+                <Tasks itemData={props.items} />
             </main>
         </>
     )

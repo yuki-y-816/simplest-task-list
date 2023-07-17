@@ -77,7 +77,8 @@ export default defineConfig({
     /* Run your local dev server before starting the tests */
     webServer: {
         // command: "PORT=3030 MSW_MOCKING=true NEXT_PUBLIC_APP_URL=http://localhost:3030 npm run dev",
-        command: "PORT=3030 MSW_MOCKING=true NEXT_PUBLIC_APP_URL=http://localhost:3030 API_GATEWAY_URL=http://host.docker.internal:3000 NEXT_PUBLIC_API_GATEWAY=http://localhost:3000 npm run dev",
+        command:
+            "PORT=3030 MSW_MOCKING=true NEXT_PUBLIC_APP_URL=http://localhost:3030 API_GATEWAY_URL=http://host.docker.internal:3030 NEXT_PUBLIC_API_GATEWAY=http://localhost:3000 npm run dev",
         url: "http://localhost:3030",
         reuseExistingServer: !process.env.CI,
     },
