@@ -34,7 +34,7 @@ const Tasks = (props: TaskProps): JSX.Element => {
 
     const items = data.map((item) => {
         return (
-            <li className="border border-black rounded-md">
+            <li key={item.id} className="border border-black rounded-md">
                 <p className="mx-3 overflow-x-auto my-2">{item.task}</p>
             </li>
         )

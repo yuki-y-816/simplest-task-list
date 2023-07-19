@@ -1,15 +1,17 @@
 import { rest } from "msw"
 import { ApiGateway } from "@/consts/app"
-import { TodoItems } from "@/features/todo/types"
+import type { TodoItems } from "@/features/todo/types"
+import type { User } from "@/features/user/types"
 
 const apiURL = ApiGateway
-const testUser = {
+const testUser: User = {
     id: "8n3CeEjw",
     name: "Yuki",
     email: "test@test.com",
 }
-const testTodoItems = [
+const testTodoItems: TodoItems = [
     {
+        id: 1,
         userId: testUser.id,
         task: "this is test task",
         updatedAt: "2023-07-7 07:07:07",
