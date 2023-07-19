@@ -19,6 +19,7 @@ func (db DB) SelectTodoItems(item *Item) (TodoItems, error) {
 	var todoItems TodoItems
 	query := `
         SELECT
+            id,
             user_id,
             task,
             updated_at

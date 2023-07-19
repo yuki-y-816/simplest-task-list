@@ -72,6 +72,7 @@ func TestDB_SelectTodoItems(t *testing.T) {
 			append(
 				todoItems,
 				Item{
+					Id:        1,
 					UserId:    "8n3CeEjw",
 					Task:      "this is test task",
 					UpdatedAt: "2023-07-07 07:07:07",
