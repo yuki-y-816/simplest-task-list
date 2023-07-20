@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tests/mocks/server.js", "tests/mocks/handler.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tests/mocks/server.ts", "tests/mocks/handler.ts"],
   "exclude": ["node_modules"]
 }
