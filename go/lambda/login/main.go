@@ -69,7 +69,7 @@ func HandleRequest(
 			email,
 			password
 		FROM
-			user
+			users
 		WHERE
 			email = :email
 		LIMIT

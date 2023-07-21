@@ -94,7 +94,7 @@ func (s *Service) CreateNewUser() error {
 
 func (s *Service) AttemptInsert() error {
 	_, err := s.DB.NamedExec(`
-		INSERT INTO user(
+		INSERT INTO users(
 			id,
 			name,
 			email,
