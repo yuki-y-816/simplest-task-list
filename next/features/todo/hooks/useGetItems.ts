@@ -4,14 +4,14 @@ import type { TodoItems, Item } from "@/features/todo/types"
 
 type postData = {
     method: "select"
-    todo: Item
+    todoItem: Item
 }
 
 export const useGetItems = async (userId: User["id"]): Promise<TodoItems> => {
     let todoItems: TodoItems = []
     const postData: postData = {
         method: "select",
-        todo: {
+        todoItem: {
             userId: userId,
         },
     }
