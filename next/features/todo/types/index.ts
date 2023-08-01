@@ -7,3 +7,7 @@ export type Item = {
     createdAt?: string
     updatedAt?: string
 }
+
+export type TodoFormFillable = {
+    task: string
+}
