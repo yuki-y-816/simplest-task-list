@@ -57,6 +57,7 @@ const CreateTaskField = ({ addTask }: CreateTaskFieldProps): JSX.Element => {
     return (
         <form onSubmit={handleSubmit(submitFunc)}>
             <TextInput
+                id="task"
                 icon={PlusIcon}
                 type="text"
                 placeholder="add a task"
