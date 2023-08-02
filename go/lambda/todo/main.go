@@ -40,6 +40,14 @@ func HandleRequest(
 
 		jsonBytes, _ = json.Marshal(todoItems)
 
+	case "create":
+		item, err := db.CreateNewTodoItem(&input.TodoItem)
+		if err != nil {
+			return getErrResponse(500, err)
+		}
+
+		jsonBytes, _ = json.Marshal(item)
+
 	default:
 		return getErrResponse(400, fmt.Errorf("bad request"))
 	}

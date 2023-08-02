@@ -1,9 +1,9 @@
 import { rest } from "msw"
 import { ApiGateway } from "@/consts/app"
-import type { TodoItems } from "@/features/todo/types"
+import type { TodoItems, Item } from "@/features/todo/types"
 import type { User } from "@/features/user/types"
 
-const apiURL = ApiGateway
+const apiURL = process.env.API_GATEWAY_URL
 const testUser: User = {
     id: "8n3CeEjw",
     name: "Yuki",
@@ -68,6 +68,16 @@ export const handlers = [
 
         if (posted.method === "select") {
             return res(ctx.json(testTodoItems))
+        }
+
+        if (posted.method === "create") {
+            const item: Item = {
+                id: Math.floor(Math.random() * 10000),
+                userId: posted.todoItem.userId,
+                task: posted.todoItem.task,
+            }
+
+            return res(ctx.status(200), ctx.json(item))
         }
     }),
 ]
