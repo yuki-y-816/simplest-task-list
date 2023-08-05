@@ -48,6 +48,14 @@ func HandleRequest(
 
 		jsonBytes, _ = json.Marshal(item)
 
+	case "delete":
+		err := db.DeleteTodoItem(&input.TodoItem)
+		if err != nil {
+			return getErrResponse(500, err)
+		}
+
+		jsonBytes, _ = json.Marshal(`{"result": true}`)
+
 	default:
 		return getErrResponse(400, fmt.Errorf("bad request"))
 	}
