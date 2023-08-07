@@ -54,7 +54,9 @@ func HandleRequest(
 			return getErrResponse(500, err)
 		}
 
-		jsonBytes, _ = json.Marshal(`{"result": true}`)
+		result := map[string]bool{"result": true}
+
+		jsonBytes, _ = json.Marshal(result)
 
 	default:
 		return getErrResponse(400, fmt.Errorf("bad request"))
