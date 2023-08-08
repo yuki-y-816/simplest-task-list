@@ -1,5 +1,4 @@
 import { rest } from "msw"
-import { ApiGateway } from "@/consts/app"
 import type { TodoItems, Item } from "@/features/todo/types"
 import type { User } from "@/features/user/types"
 
