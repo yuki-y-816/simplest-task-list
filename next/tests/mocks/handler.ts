@@ -9,14 +9,13 @@ const testUser: User = {
     name: "Yuki",
     email: "test@test.com",
 }
-const testTodoItems: TodoItems = [
-    {
-        id: 1,
-        userId: testUser.id,
-        task: "this is test task",
-        updatedAt: "2023-07-7 07:07:07",
-    },
-]
+const item: Item = {
+    id: 1,
+    userId: testUser.id,
+    task: "this is test task",
+    updatedAt: "2023-07-7 07:07:07",
+}
+const testTodoItems: TodoItems = [item]
 
 export const handlers = [
     rest.post(`${apiURL}/signup`, async (req, res, ctx) => {
@@ -66,18 +65,24 @@ export const handlers = [
     rest.post(`${apiURL}/todo`, async (req, res, ctx) => {
         const posted = await req.json()
 
-        if (posted.method === "select") {
-            return res(ctx.json(testTodoItems))
-        }
+        switch (posted.method) {
+            case "select":
+                return res(ctx.json(testTodoItems))
 
-        if (posted.method === "create") {
-            const item: Item = {
-                id: Math.floor(Math.random() * 10000),
-                userId: posted.todoItem.userId,
-                task: posted.todoItem.task,
-            }
+            case "create":
+                const item: Item = {
+                    id: Math.floor(Math.random() * 10000),
+                    userId: posted.todoItem.userId,
+                    task: posted.todoItem.task,
+                }
 
-            return res(ctx.status(200), ctx.json(item))
+                return res(ctx.status(200), ctx.json(item))
+
+            case "delete":
+                return res(ctx.status(200), ctx.json({ result: true }))
+
+            default:
+                break
         }
     }),
 ]

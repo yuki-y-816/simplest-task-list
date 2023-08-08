@@ -61,4 +61,17 @@ test.describe("ログイン中", () => {
             await expect(page.getByText(task)).toBeVisible()
         })
     })
+
+    test.describe("タスク削除関係", () => {
+        test("タスクが非表示になる", async ({ page }) => {
+            const deleteIcon = page.locator("#delete-item-1")
+            const item = page.locator("#item-id-1")
+
+            await expect(item).toBeVisible()
+
+            await deleteIcon.click()
+
+            await expect(item).not.toBeVisible()
+        })
+    })
 })
