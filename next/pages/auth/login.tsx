@@ -5,7 +5,6 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import type { GetServerSidePropsContext } from "next"
 import { withSessionSsr } from "@/libs/withSession"
 import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
-import { ApiURL } from "@/consts/app"
 import type { FormFillable } from "@/features/auth/types"
 import { EmailForm, PasswordForm } from "@/features/auth/components/inputForm"
 
@@ -35,7 +34,7 @@ const Login = (): JSX.Element => {
         setIsLoading(true)
 
         // ログイン API にパラメータ渡す
-        const fetched = await fetch(`${ApiURL}/auth/login`, {
+        const fetched = await fetch("/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
