@@ -17,6 +17,7 @@ services:
       - ./next:/nextjs
       - /nextjs/node_modules
       - /nextjs/.next
+      - /nextjs/test-results
     ports:
       - 80:3000
     environment:
