@@ -9,7 +9,7 @@ import { TextInput } from "flowbite-react"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import { RenderingErrorMessage } from "@/components/elements/errors"
-import { PlusIcon } from "@/components/elements/icons"
+import { PlusIcon, DeleteIcon } from "@/components/elements/icons"
 
 type SsrProps = { items: TodoItems }
 type TaskProps = { itemData: TodoItems }
@@ -48,7 +48,6 @@ const CreateTaskField = ({ addTask }: CreateTaskFieldProps): JSX.Element => {
             method: "POST",
             body: JSON.stringify(input),
         }).then((res) => res.json())
-        console.log("added->", added)
 
         addTask(added)
         resetField("task")
@@ -74,17 +73,40 @@ const CreateTaskField = ({ addTask }: CreateTaskFieldProps): JSX.Element => {
     )
 }
 
+// タスク削除ボタン押下
+const deleteFunc = async (itemId: Item["id"]) => {
+    const fetched = await fetch(`/api/todo/delete/${itemId}`, {
+        method: "DELETE",
+    }).then((res) => res.json())
+
+    if (fetched.result === true) {
+        const element = document.querySelector(`#item-id-${itemId}`)
+
+        element?.remove()
+    }
+}
+
 // 各タスク表示
 const Tasks = (props: TaskProps): JSX.Element => {
     const itemData = props.itemData
-    if (itemData.length === 0) {
+    if (itemData === undefined || itemData.length === 0) {
         return <p>Tasks have not been added yet</p>
     }
 
     const items = itemData.map((item) => {
+        const itemId = Number(item.id)
         return (
-            <li key={item.id} className="border border-black rounded-md my-2">
+            <li
+                key={itemId}
+                id={`item-id-${itemId}`}
+                className="border border-black rounded-md my-2 flex items-center justify-between"
+            >
                 <p className="mx-3 overflow-x-auto my-2">{item.task}</p>
+                <DeleteIcon
+                    id={`delete-item-${itemId}`}
+                    onClick={() => deleteFunc(itemId)}
+                    className="mx-4 w-5 h-5 cursor-pointer"
+                />
             </li>
         )
     })
