@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { ApiURL } from "@/consts/app"
 import { useRouter } from "next/router"
 
-export const Header = (): JSX.Element => {
+const Header = (): JSX.Element => {
     const [navLinks, setNavLinks] = useState<JSX.Element>()
     const router = useRouter()
 
@@ -43,5 +43,4 @@ export const Header = (): JSX.Element => {
         </Navbar>
     )
 }
-
 export default Header
