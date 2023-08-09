@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 
 	"todo/service"
 
@@ -47,6 +48,19 @@ func HandleRequest(
 		}
 
 		jsonBytes, _ = json.Marshal(item)
+
+	case "update":
+		statusCode, err := db.UpdateTodoItem(&input.TodoItem)
+		if err != nil {
+			return getErrResponse(500, err)
+		}
+
+		if statusCode != 204 {
+			return getErrResponse(
+				statusCode,
+				fmt.Errorf(http.StatusText(statusCode)),
+			)
+		}
 
 	case "delete":
 		err := db.DeleteTodoItem(&input.TodoItem)
