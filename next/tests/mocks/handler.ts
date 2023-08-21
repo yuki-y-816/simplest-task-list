@@ -77,6 +77,9 @@ export const handlers = [
 
                 return res(ctx.status(200), ctx.json(item))
 
+            case "update":
+                return res(ctx.status(200), ctx.json({}))
+
             case "delete":
                 return res(ctx.status(200), ctx.json({ result: true }))
 
