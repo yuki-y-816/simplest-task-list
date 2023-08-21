@@ -22,6 +22,7 @@ const InputTask = ({ form, method, defaultValue }: Props): JSX.Element => {
     let id: string = ""
     let icon: Icon = () => <></>
     let placeholder: string = ""
+    let errorId: string = ""
     const [value, setValue] = useState<string>(defaultValue)
 
     // update で一つのコンポーネントを使い回す際の value を出し分ける
@@ -35,12 +36,14 @@ const InputTask = ({ form, method, defaultValue }: Props): JSX.Element => {
             id = "task"
             icon = PlusIcon
             placeholder = "add a task"
+            errorId = "err-create-task"
             break
 
         case "update":
             id = `update-task`
             icon = PencilIcon
             placeholder = "update the task"
+            errorId = "err-update-task"
             break
     }
 
@@ -58,7 +61,7 @@ const InputTask = ({ form, method, defaultValue }: Props): JSX.Element => {
                     onChange: (e) => setValue(e.target.value),
                 })}
             />
-            <div data-testid="error-task">
+            <div data-testid={errorId}>
                 <ErrorMessage name="task" errors={errors} render={({ message }) => RenderingErrorMessage(message)} />
             </div>
         </>

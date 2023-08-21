@@ -120,6 +120,7 @@ const Tasks = (props: TaskProps): JSX.Element => {
                 <p className="mx-3 overflow-x-auto my-2">{task}</p>
                 <div className="flex items-center gap-3 mx-4">
                     <PencilIcon
+                        id={`update-item-${itemId}`}
                         onClick={() => {
                             setOpenModal(true)
                             setInputItemId(itemId)

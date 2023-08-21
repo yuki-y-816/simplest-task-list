@@ -38,7 +38,7 @@ test.describe("ログイン中", () => {
         test("未入力だとエラーメッセージが表示される", async ({ page }) => {
             const util = new TodoInputUtil(page)
             const form = util.getTaskField()
-            const errText = util.getErrText("error-task")
+            const errText = util.getErrText("err-create-task")
 
             await expect(errText).not.toBeVisible()
 
@@ -72,6 +72,39 @@ test.describe("ログイン中", () => {
             await deleteIcon.click()
 
             await expect(item).not.toBeVisible()
+        })
+    })
+
+    test.describe("タスク更新関係", () => {
+        test("入力した内容でタスクの文字列が更新される", async ({ page }) => {
+            const updateIcon = page.locator("#update-item-1")
+            const item = page.locator("#item-id-1")
+
+            await expect(item).toHaveText("this is test task")
+
+            await updateIcon.click()
+
+            const form = page.locator("#update-task")
+
+            await form.clear()
+            await form.type("updated string")
+            await form.press("Enter")
+
+            await expect(item).toHaveText("updated string")
+        })
+
+        test("更新後にフォームモーダルが閉じられる", async ({ page }) => {
+            const updateIcon = page.locator("#update-item-1")
+
+            await updateIcon.click()
+
+            const form = page.locator("#update-task")
+
+            await form.clear()
+            await form.type("updated string")
+            await form.press("Enter")
+
+            await expect(form).not.toBeVisible()
         })
     })
 })
