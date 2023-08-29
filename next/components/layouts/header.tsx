@@ -35,7 +35,7 @@ const Header = (): JSX.Element => {
     }, [router.pathname])
 
     return (
-        <Navbar fluid={true} rounded={true}>
+        <Navbar fluid={true} rounded={true} className="border-b border-slate-300">
             <Navbar.Brand href="/">SIMPLE TO DO</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>{navLinks}</Navbar.Collapse>
