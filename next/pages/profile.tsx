@@ -89,7 +89,7 @@ const ProfileField = ({ user }: ProfileFieldProps): JSX.Element => {
             <Modal dismissible show={props.openModal} onClose={() => props.setOpenModal(false)}>
                 <Modal.Body>
                     <form onSubmit={handleSubmit(renameFunc)}>
-                        {NameForm(renameForm)}
+                        <NameForm form={renameForm} />
                         <button type="submit" className="border-2 border-black">
                             Rename
                         </button>
