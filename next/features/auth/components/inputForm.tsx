@@ -6,7 +6,7 @@ import { TextInput } from "flowbite-react"
 
 type Props = { form: UseFormReturn<FormFillable> }
 
-export const NameForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
+export const NameForm = ({ form }: Props): JSX.Element => {
     const {
         register,
         formState: { errors },
@@ -14,7 +14,7 @@ export const NameForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
     return (
         <>
             <label htmlFor="name">Name</label>
-            <input
+            <TextInput
                 type="text"
                 id="name"
                 autoComplete="off"
@@ -57,7 +57,6 @@ export const EmailForm = ({ form }: Props): JSX.Element => {
     )
 }
 
-// export const PasswordForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
 export const PasswordForm = ({ form }: Props): JSX.Element => {
     const {
         register,

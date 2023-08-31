@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import type { FormFillable } from "@/features/auth/types"
 import { EmailForm, NameForm, PasswordForm } from "@/features/auth/components/inputForm"
 import { useRouter } from "next/router"
+import { Button } from "flowbite-react"
 
 const Signup = (): JSX.Element => {
     const [isCreating, setIsCreating] = useState(false)
@@ -44,17 +45,19 @@ const Signup = (): JSX.Element => {
             <Head>
                 <title>SignUp</title>
             </Head>
-            <main>
-                <div>
-                    <p>Create Your Account!</p>
-                    <div>
+            <main className="mx-auto w-4/5">
+                <div className="my-8 md:w-1/2 md:mx-auto">
+                    <p className="text-2xl font-bold">Create Your Account!</p>
+                    <div className="py-4">
                         <form onSubmit={handleSubmit(submitFunc)}>
-                            {NameForm(form)}
+                            <NameForm form={form} />
                             <EmailForm form={form} />
                             <PasswordForm form={form} />
-                            <button type="submit" disabled={isCreating}>
-                                {isCreating ? "Creating..." : "Sign up"}
-                            </button>
+                            <div className="py-4 flex justify-center">
+                                <Button type="submit" disabled={isCreating} className="px-4">
+                                    {isCreating ? "Creating..." : "Sign up"}
+                                </Button>
+                            </div>
                         </form>
                     </div>
                 </div>
