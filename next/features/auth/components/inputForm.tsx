@@ -2,8 +2,11 @@ import { UseFormReturn } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import { FormFillable } from "@/features/auth/types"
 import { RenderingErrorMessage } from "@/components/elements/errors"
+import { TextInput } from "flowbite-react"
 
-export const NameForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
+type Props = { form: UseFormReturn<FormFillable> }
+
+export const NameForm = ({ form }: Props): JSX.Element => {
     const {
         register,
         formState: { errors },
@@ -11,7 +14,7 @@ export const NameForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
     return (
         <>
             <label htmlFor="name">Name</label>
-            <input
+            <TextInput
                 type="text"
                 id="name"
                 autoComplete="off"
@@ -30,7 +33,7 @@ export const NameForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
     )
 }
 
-export const EmailForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
+export const EmailForm = ({ form }: Props): JSX.Element => {
     const {
         register,
         formState: { errors },
@@ -39,7 +42,7 @@ export const EmailForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
     return (
         <>
             <label htmlFor="email">Email</label>
-            <input
+            <TextInput
                 type="email"
                 id="email"
                 autoComplete="off"
@@ -54,7 +57,7 @@ export const EmailForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
     )
 }
 
-export const PasswordForm = (form: UseFormReturn<FormFillable>): JSX.Element => {
+export const PasswordForm = ({ form }: Props): JSX.Element => {
     const {
         register,
         formState: { errors },
@@ -63,7 +66,7 @@ export const PasswordForm = (form: UseFormReturn<FormFillable>): JSX.Element => 
     return (
         <>
             <label htmlFor="password">Password</label>
-            <input
+            <TextInput
                 type="password"
                 id="password"
                 {...register("password", {

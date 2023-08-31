@@ -28,7 +28,7 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
 
 const Index = (): JSX.Element => {
     const router = useRouter()
-    const link = (prop: LinkProp): JSX.Element => {
+    const Link = (prop: LinkProp): JSX.Element => {
         return (
             <span className="mx-1 cursor-pointer text-blue-400 hover:underline" onClick={() => router.push(prop.path)}>
                 {prop.text}
@@ -41,17 +41,17 @@ const Index = (): JSX.Element => {
             <Head>
                 <title>{AppName}</title>
             </Head>
-            <main>
-                <div>
-                    <p>Welcome to SimpleTodo.</p>
+            <main className="mx-auto w-4/5 xl:text-center">
+                <div className="my-8">
+                    <p className="text-lg font-semibold">Welcome to SimpleTodo.</p>
                     <p>This website allows you to create a simple TODO list.</p>
                     <p>
                         Feel free to
-                        {link({ text: "Log in", path: "/auth/login" })}
+                        <Link text="log in" path="/auth/login" />
                         and create your own TODO list.
                         <br />
                         Don't have an account yet? You can create one
-                        {link({ text: "here", path: "/auth/signup" })}.
+                        <Link text="here" path="/auth/signup" />.
                     </p>
                 </div>
             </main>

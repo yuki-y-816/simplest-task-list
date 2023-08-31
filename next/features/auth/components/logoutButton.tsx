@@ -1,5 +1,5 @@
-//import React from "react"
 import { useRouter } from "next/router"
+import { Button } from "flowbite-react"
 
 export const LogoutButton = (): JSX.Element => {
     const router = useRouter()
@@ -14,11 +14,10 @@ export const LogoutButton = (): JSX.Element => {
 
     return (
         <>
-            <button onClick={handleButton} className="border-2 border-black">
+            <Button onClick={handleButton} className="px-4">
                 Logout
-            </button>
+            </Button>
         </>
     )
 }
-
 export default LogoutButton

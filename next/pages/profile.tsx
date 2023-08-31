@@ -10,9 +10,14 @@ import { NameForm } from "@/features/auth/components/inputForm"
 import type { FormFillable } from "@/features/auth/types"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { Modal } from "flowbite-react"
+import Head from "next/head"
 
 type SsrProps = {
     succeed: boolean
+    user: User
+}
+
+type ProfileFieldProps = {
     user: User
 }
 
@@ -37,8 +42,8 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
     }
 })
 
-const profileFiled = (user: User): JSX.Element => {
-    const recordClass = "grid grid-cols-5 md:grid-cols-12 gap-4"
+const ProfileField = ({ user }: ProfileFieldProps): JSX.Element => {
+    const recordClass = "grid grid-cols-5 md:grid-cols-7 gap-4"
     const fieldNameClass = "grid-span-1 text-right font-bold"
     const fieldValClass = "col-start-2 col-end-[-1]"
 
@@ -84,7 +89,7 @@ const profileFiled = (user: User): JSX.Element => {
             <Modal dismissible show={props.openModal} onClose={() => props.setOpenModal(false)}>
                 <Modal.Body>
                     <form onSubmit={handleSubmit(renameFunc)}>
-                        {NameForm(renameForm)}
+                        <NameForm form={renameForm} />
                         <button type="submit" className="border-2 border-black">
                             Rename
                         </button>
@@ -95,37 +100,45 @@ const profileFiled = (user: User): JSX.Element => {
     )
 }
 
-const noDataField = (): JSX.Element => {
-    return (
-        <div>
-            <p data-testid="txt-no-user">
-                Sorry, we may have failed to retrieve your user data.
-                <br />
-                Try logging out, logging back in, and then trying to access it again.
-            </p>
-        </div>
-    )
-}
-
-export const Profile = (props: SsrProps): JSX.Element => {
-    const user: User = props.user
-    const getElementContent = (): JSX.Element => {
-        if (props.succeed === true) {
-            return profileFiled(user)
-        } else {
-            return noDataField()
-        }
-    }
-
+const NoDataField = (): JSX.Element => {
     return (
         <>
-            <div className="w-4/5 mx-auto">
-                <div className="text-2xl font-bold">Profile</div>
-                <div>{getElementContent()}</div>
-                <div>{LogoutButton()}</div>
+            <div>
+                <p data-testid="txt-no-user">
+                    Sorry, we may have failed to retrieve your user data.
+                    <br />
+                    Try logging out, logging back in, and then trying to access it again.
+                </p>
             </div>
         </>
     )
 }
 
+export const Profile = (props: SsrProps): JSX.Element => {
+    const user: User = props.user
+    const MainContent = (): JSX.Element => {
+        if (props.succeed === true) {
+            return <ProfileField user={user} />
+        } else {
+            return <NoDataField />
+        }
+    }
+
+    return (
+        <>
+            <Head>
+                <title>Profile</title>
+            </Head>
+            <main className="mx-auto w-4/5">
+                <div className="my-8 md:w-1/2 md:mx-auto">
+                    <div className="text-2xl font-bold">Profile</div>
+                    <MainContent />
+                    <div className="my-8 flex justify-center">
+                        <LogoutButton />
+                    </div>
+                </div>
+            </main>
+        </>
+    )
+}
 export default Profile
