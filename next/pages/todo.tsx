@@ -169,11 +169,12 @@ const Todo = (props: SsrProps): JSX.Element => {
             </Head>
             <main className="lg:w-3/5 mx-auto my-4 px-8">
                 <div className="text-2xl font-bold">Todo</div>
-                <CreateTaskField addTask={addTask} />
+                <div className="my-2">
+                    <CreateTaskField addTask={addTask} />
+                </div>
                 <Tasks itemData={todoItems} />
             </main>
         </>
     )
 }
-
 export default Todo
