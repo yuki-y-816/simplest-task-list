@@ -7,6 +7,7 @@ import { withSessionSsr } from "@/libs/withSession"
 import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
 import type { FormFillable } from "@/features/auth/types"
 import { EmailForm, PasswordForm } from "@/features/auth/components/inputForm"
+import { Button } from "flowbite-react"
 
 export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
     const { req } = ctx
@@ -52,16 +53,18 @@ const Login = (): JSX.Element => {
             <Head>
                 <title>Login</title>
             </Head>
-            <main>
-                <div>
-                    <p>Login</p>
-                    <div>
+            <main className="mx-auto w-4/5">
+                <div className="my-8 md:w-1/2 md:mx-auto">
+                    <p className="text-2xl font-bold">Login</p>
+                    <div className="py-4">
                         <form onSubmit={handleSubmit(submitFunc)}>
-                            {EmailForm(form)}
-                            {PasswordForm(form)}
-                            <button type="submit" disabled={isLoading}>
-                                {isLoading ? "Loading..." : "Login"}
-                            </button>
+                            <EmailForm form={form} />
+                            <PasswordForm form={form} />
+                            <div className="py-4 flex justify-center">
+                                <Button type="submit" disabled={isLoading} className="px-4">
+                                    {isLoading ? "Loading..." : "Login"}
+                                </Button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -69,5 +72,4 @@ const Login = (): JSX.Element => {
         </>
     )
 }
-
 export default Login

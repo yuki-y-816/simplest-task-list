@@ -50,8 +50,8 @@ const Signup = (): JSX.Element => {
                     <div>
                         <form onSubmit={handleSubmit(submitFunc)}>
                             {NameForm(form)}
-                            {EmailForm(form)}
-                            {PasswordForm(form)}
+                            <EmailForm form={form} />
+                            <PasswordForm form={form} />
                             <button type="submit" disabled={isCreating}>
                                 {isCreating ? "Creating..." : "Sign up"}
                             </button>
