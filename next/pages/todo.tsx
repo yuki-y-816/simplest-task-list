@@ -2,7 +2,7 @@ import Head from "next/head"
 import { useState } from "react"
 import { GetServerSidePropsContext } from "next"
 import { withSessionSsr } from "@/libs/withSession"
-import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
+import checkLogin from "@/features/auth/functions/checkLogin"
 import useGetItems from "@/features/todo/hooks/useGetItems"
 import { Item, TodoItems, TodoFormFillable } from "@/features/todo/types"
 import { Modal } from "flowbite-react"
@@ -19,7 +19,7 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
     const { req } = ctx
 
     // 未ログインであればログインページにリダイレクト
-    if (useCheckLogin(req) === false) {
+    if (checkLogin(req) === false) {
         return {
             redirect: {
                 destination: "/auth/login",
@@ -76,15 +76,15 @@ const getTaskElement = (id: number): Element | null => {
 // 各タスク表示
 const Tasks = (props: TaskProps): JSX.Element => {
     const itemData = props.itemData
-    if (itemData === undefined || itemData.length === 0) {
-        return <p>Tasks have not been added yet</p>
-    }
-
     const form = useForm<TodoFormFillable>()
     const { handleSubmit } = form
     const [openModal, setOpenModal] = useState<boolean>(false)
     const [inputItemId, setInputItemId] = useState<number>(0)
     const [inputValue, setInputValue] = useState<string>("")
+
+    if (itemData === undefined || itemData.length === 0) {
+        return <p>Tasks have not been added yet</p>
+    }
 
     const updateFunc: SubmitHandler<TodoFormFillable> = async (input) => {
         const inputTask = input.task

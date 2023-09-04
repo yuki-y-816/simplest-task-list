@@ -1,4 +1,4 @@
-export const useCheckLogin = (req: any): boolean => {
+const checkLogin = (req: any): boolean => {
     const user = req.session.user
 
     if (user) {
@@ -7,3 +7,4 @@ export const useCheckLogin = (req: any): boolean => {
 
     return false
 }
+export default checkLogin

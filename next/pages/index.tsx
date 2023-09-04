@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { AppName } from "@/consts/app"
 import { withSessionSsr } from "@/libs/withSession"
 import { GetServerSidePropsContext } from "next"
-import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
+import checkLogin from "@/features/auth/functions/checkLogin"
 
 type LinkProp = {
     text: string
@@ -14,7 +14,7 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
     const { req } = ctx
 
     // ログイン中であれば /todo にリダイレクト
-    if (useCheckLogin(req) === true) {
+    if (checkLogin(req) === true) {
         return {
             redirect: {
                 destination: "/todo",
@@ -50,7 +50,7 @@ const Index = (): JSX.Element => {
                         <Link text="log in" path="/auth/login" />
                         and create your own TODO list.
                         <br />
-                        Don't have an account yet? You can create one
+                        Don&apos;t have an account yet? You can create one
                         <Link text="here" path="/auth/signup" />.
                     </p>
                 </div>

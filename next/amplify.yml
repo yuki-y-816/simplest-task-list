@@ -9,6 +9,7 @@ applications:
           commands:
             - env | grep -e API_GATEWAY_URL >> .env.production
             - env | grep -e NEXT_PUBLIC_ >> .env.production
+            - env | grep -e IRON_COOKIE_PASSWORD >> .env.production
             - npm run build
       artifacts:
         baseDirectory: .next
