@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import type { GetServerSidePropsContext } from "next"
 import { withSessionSsr } from "@/libs/withSession"
-import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
+import checkLogin from "@/features/auth/functions/checkLogin"
 import type { FormFillable } from "@/features/auth/types"
 import { EmailForm, PasswordForm } from "@/features/auth/components/inputForm"
 import { Button } from "flowbite-react"
@@ -12,7 +12,7 @@ import { Button } from "flowbite-react"
 export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
     const { req } = ctx
 
-    if (useCheckLogin(req) === true) {
+    if (checkLogin(req) === true) {
         // ログイン中であれば自分のプロフィールページへ
         return {
             redirect: {

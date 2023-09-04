@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { withSessionApi } from "@/libs/withSession"
-import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
+import checkLogin from "@/features/auth/functions/checkLogin"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const isLogin = useCheckLogin(req)
+    const isLogin = checkLogin(req)
 
     res.status(200).json({
         isLogin: isLogin,

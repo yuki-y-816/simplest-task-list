@@ -2,7 +2,7 @@ import Head from "next/head"
 import { useState } from "react"
 import { GetServerSidePropsContext } from "next"
 import { withSessionSsr } from "@/libs/withSession"
-import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
+import checkLogin from "@/features/auth/functions/checkLogin"
 import useGetItems from "@/features/todo/hooks/useGetItems"
 import { Item, TodoItems, TodoFormFillable } from "@/features/todo/types"
 import { Modal } from "flowbite-react"
@@ -19,7 +19,7 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
     const { req } = ctx
 
     // 未ログインであればログインページにリダイレクト
-    if (useCheckLogin(req) === false) {
+    if (checkLogin(req) === false) {
         return {
             redirect: {
                 destination: "/auth/login",

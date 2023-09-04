@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { AppName } from "@/consts/app"
 import { withSessionSsr } from "@/libs/withSession"
 import { GetServerSidePropsContext } from "next"
-import { useCheckLogin } from "@/features/auth/hooks/useCheckLogin"
+import checkLogin from "@/features/auth/functions/checkLogin"
 
 type LinkProp = {
     text: string
@@ -14,7 +14,7 @@ export const getServerSideProps = withSessionSsr(async function (ctx: GetServerS
     const { req } = ctx
 
     // ログイン中であれば /todo にリダイレクト
-    if (useCheckLogin(req) === true) {
+    if (checkLogin(req) === true) {
         return {
             redirect: {
                 destination: "/todo",
