@@ -50,7 +50,7 @@ const Index = (): JSX.Element => {
                         <Link text="log in" path="/auth/login" />
                         and create your own TODO list.
                         <br />
-                        Don't have an account yet? You can create one
+                        Don&apos;t have an account yet? You can create one
                         <Link text="here" path="/auth/signup" />.
                     </p>
                 </div>
