@@ -76,15 +76,15 @@ const getTaskElement = (id: number): Element | null => {
 // 各タスク表示
 const Tasks = (props: TaskProps): JSX.Element => {
     const itemData = props.itemData
-    if (itemData === undefined || itemData.length === 0) {
-        return <p>Tasks have not been added yet</p>
-    }
-
     const form = useForm<TodoFormFillable>()
     const { handleSubmit } = form
     const [openModal, setOpenModal] = useState<boolean>(false)
     const [inputItemId, setInputItemId] = useState<number>(0)
     const [inputValue, setInputValue] = useState<string>("")
+
+    if (itemData === undefined || itemData.length === 0) {
+        return <p>Tasks have not been added yet</p>
+    }
 
     const updateFunc: SubmitHandler<TodoFormFillable> = async (input) => {
         const inputTask = input.task
