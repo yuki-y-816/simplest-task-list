@@ -23,7 +23,7 @@ export const useGetItems = async (userId: User["id"]): Promise<TodoItems> => {
             body: JSON.stringify(postData),
         }).then((res) => res.json())
 
-        todoItems = fetched
+        todoItems = !fetched ? [] : fetched
     } catch (error) {
         console.log("error!! ->", error)
     }

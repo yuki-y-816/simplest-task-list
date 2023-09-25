@@ -82,7 +82,7 @@ const Tasks = (props: TaskProps): JSX.Element => {
     const [inputItemId, setInputItemId] = useState<number>(0)
     const [inputValue, setInputValue] = useState<string>("")
 
-    if (itemData === undefined || itemData.length === 0) {
+    if (itemData.length === 0) {
         return <p>Tasks have not been added yet</p>
     }
 

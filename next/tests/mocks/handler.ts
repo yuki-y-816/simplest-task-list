@@ -38,12 +38,14 @@ export const handlers = [
         )
     }),
 
-    rest.post(`${apiURL}/login`, (req, res, ctx) => {
+    rest.post(`${apiURL}/login`, async (req, res, ctx) => {
+        const posted = await req.json()
+        const user = posted.email === "no-item@user.com" ? { id: "noItemUser" } : testUser
         return res(
             ctx.json({
                 authenticated: true,
                 data: {
-                    user: testUser,
+                    user: user,
                 },
             })
         )
@@ -66,6 +68,11 @@ export const handlers = [
 
         switch (posted.method) {
             case "select":
+                // todoItemが無いユーザーとしてログインしている場合
+                if (posted.todoItem.userId === "noItemUser") {
+                    return res(ctx.json([]))
+                }
+
                 return res(ctx.json(testTodoItems))
 
             case "create":
