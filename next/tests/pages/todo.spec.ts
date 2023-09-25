@@ -108,3 +108,15 @@ test.describe("ログイン中", () => {
         })
     })
 })
+
+test.describe("ログイン中（todoItemの無いユーザー）", () => {
+    test("todoItemが無い旨のテキストが表示される", async ({ page }) => {
+        await page.goto("/auth/login")
+        await page.locator("input#email").fill("no-item@user.com")
+        await page.locator("input#password").fill("password")
+        await page.getByRole("button", { name: "Login" }).click()
+        await page.waitForURL("/todo")
+
+        await expect(page.getByText("Tasks have not been added yet")).toBeVisible()
+    })
+})
