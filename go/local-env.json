@@ -1,8 +1,0 @@
-{
-    "Parameters": {
-        "DB_USER": "operator",
-        "DB_PASSWORD": "pass",
-        "DB_HOST": "host.docker.internal:3306",
-        "DB_DATABASE": "todo"
-    }
-}

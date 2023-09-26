@@ -1,135 +1,147 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  go
-
-  Sample SAM Template for go
+    My Simple Todo List App
 
 Globals:
-  Function:
-    Timeout: 5
-    MemorySize: 128
+    Function:
+        Timeout: 5
+        MemorySize: 128
+
+Parameters:
+    DbUser:
+        Type: String
+        Default: 'operator'
+    DbPassword:
+        Type: String
+        Default: 'pass'
+    DbHost:
+        Type: String
+        Default: 'host.docker.internal:3306'
+    DbDatabase:
+        Type: String
+        Default: 'todo'
 
 Resources:
-  MyHttpApi:
-    Type: AWS::Serverless::HttpApi
-    Properties:
-      CorsConfiguration:
-        AllowOrigins:
-          - "*"
-        AllowMethods:
-          - GET
-          - POST
-          - OPTIONS
-        AllowHeaders:
-          - Content-Type
-          - X-CSRF-TOKEN
+    MyHttpApi:
+        Type: AWS::Serverless::HttpApi
+        Properties:
+            CorsConfiguration:
+                AllowOrigins:
+                    - '*'
+                AllowMethods:
+                    - GET
+                    - POST
+                    - OPTIONS
+                AllowHeaders:
+                    - Content-Type
+                    - X-CSRF-TOKEN
 
-  SignupFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      PackageType: Image
-      ImageConfig:
-        Command: ["signup"]
-      Architectures:
-        - x86_64
-      Events:
-        ApiEvent:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref MyHttpApi
-            Path: /signup
-            Method: POST
-      Environment:
-        Variables:
-          DB_USER:
-          DB_PASSWORD:
-          DB_HOST:
-          DB_DATABASE:
-    Metadata:
-      DockerTag: go1.x-v1
-      DockerContext: .
-      Dockerfile: Dockerfile
+    SignupFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            PackageType: Image
+            ImageConfig:
+                Command: ['signup']
+            Architectures:
+                - x86_64
+            Events:
+                ApiEvent:
+                    Type: HttpApi
+                    Properties:
+                        ApiId: !Ref MyHttpApi
+                        Path: /signup
+                        Method: POST
+            Environment:
+                Variables:
+                    DB_USER: !Ref DbUser
+                    DB_PASSWORD: !Ref DbPassword
+                    DB_HOST: !Ref DbHost
+                    DB_DATABASE: !Ref DbDatabase
+        Metadata:
+            DockerTag: go1.x-v1
+            DockerContext: .
+            Dockerfile: Dockerfile
 
-  LoginFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      PackageType: Image
-      ImageConfig:
-        Command: ["login"]
-      Architectures:
-        - x86_64
-      Events:
-        ApiEvent:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref MyHttpApi
-            Path: /login
-            Method: POST
-      Environment:
-        Variables:
-          DB_USER:
-          DB_PASSWORD:
-          DB_HOST:
-          DB_DATABASE:
-    Metadata:
-      DockerTag: go1.x-v1
-      DockerContext: .
-      Dockerfile: Dockerfile
+    LoginFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            PackageType: Image
+            ImageConfig:
+                Command: ['login']
+            Architectures:
+                - x86_64
+            Events:
+                ApiEvent:
+                    Type: HttpApi
+                    Properties:
+                        ApiId: !Ref MyHttpApi
+                        Path: /login
+                        Method: POST
+            Environment:
+                Variables:
+                    DB_USER: !Ref DbUser
+                    DB_PASSWORD: !Ref DbPassword
+                    DB_HOST: !Ref DbHost
+                    DB_DATABASE: !Ref DbDatabase
+        Metadata:
+            DockerTag: go1.x-v1
+            DockerContext: .
+            Dockerfile: Dockerfile
 
-  UserFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      PackageType: Image
-      ImageConfig:
-        Command: ["user"]
-      Architectures:
-        - x86_64
-      Events:
-        ApiEvent:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref MyHttpApi
-            Path: /user
-            Method: POST
-      Environment:
-        Variables:
-          DB_USER:
-          DB_PASSWORD:
-          DB_HOST:
-          DB_DATABASE:
-    Metadata:
-      DockerTag: go1.x-v1
-      DockerContext: .
-      Dockerfile: Dockerfile
+    UserFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            PackageType: Image
+            ImageConfig:
+                Command: ['user']
+            Architectures:
+                - x86_64
+            Events:
+                ApiEvent:
+                    Type: HttpApi
+                    Properties:
+                        ApiId: !Ref MyHttpApi
+                        Path: /user
+                        Method: POST
+            Environment:
+                Variables:
+                    DB_USER: !Ref DbUser
+                    DB_PASSWORD: !Ref DbPassword
+                    DB_HOST: !Ref DbHost
+                    DB_DATABASE: !Ref DbDatabase
+        Metadata:
+            DockerTag: go1.x-v1
+            DockerContext: .
+            Dockerfile: Dockerfile
 
-  TodoFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      PackageType: Image
-      ImageConfig:
-        Command: ["todo"]
-      Architectures:
-        - x86_64
-      Events:
-        ApiEvent:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref MyHttpApi
-            Path: /todo
-            Method: POST
-      Environment:
-        Variables:
-          DB_USER:
-          DB_PASSWORD:
-          DB_HOST:
-          DB_DATABASE:
-    Metadata:
-      DockerTag: go1.x-v1
-      DockerContext: .
-      Dockerfile: Dockerfile
+    TodoFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            PackageType: Image
+            ImageConfig:
+                Command: ['todo']
+            Architectures:
+                - x86_64
+            Events:
+                ApiEvent:
+                    Type: HttpApi
+                    Properties:
+                        ApiId: !Ref MyHttpApi
+                        Path: /todo
+                        Method: POST
+            Environment:
+                Variables:
+                    DB_USER: !Ref DbUser
+                    DB_PASSWORD: !Ref DbPassword
+                    DB_HOST: !Ref DbHost
+                    DB_DATABASE: !Ref DbDatabase
+        Metadata:
+            DockerTag: go1.x-v1
+            DockerContext: .
+            Dockerfile: Dockerfile
 
 Outputs:
-  HttpApiUrl:
-    Description: "The URL of the HttpApi endpoint."
-    Value: !Sub "https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    HttpApiUrl:
+        Description: 'The URL of the HttpApi endpoint.'
+        Value: !Sub 'https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
