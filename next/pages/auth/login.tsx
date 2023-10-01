@@ -2,28 +2,9 @@ import Head from "next/head"
 import { useState } from "react"
 import { useRouter } from "next/router"
 import { useForm, type SubmitHandler } from "react-hook-form"
-import type { GetServerSidePropsContext } from "next"
-import { withSessionSsr } from "@/libs/withSession"
-import checkLogin from "@/features/auth/functions/checkLogin"
 import type { FormFillable } from "@/features/auth/types"
 import { EmailForm, PasswordForm } from "@/features/auth/components/inputForm"
 import { Button } from "flowbite-react"
-
-export const getServerSideProps = withSessionSsr(async function (ctx: GetServerSidePropsContext) {
-    const { req } = ctx
-
-    if (checkLogin(req) === true) {
-        // ログイン中であれば自分のプロフィールページへ
-        return {
-            redirect: {
-                destination: "/profile",
-                statusCode: 302,
-            },
-        }
-    }
-
-    return { props: {} }
-})
 
 const Login = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false)

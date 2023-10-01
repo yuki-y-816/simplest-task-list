@@ -9,7 +9,7 @@ import { PencilIcon } from "@/components/elements/icons"
 import { NameForm } from "@/features/auth/components/inputForm"
 import type { FormFillable } from "@/features/auth/types"
 import { useForm, type SubmitHandler } from "react-hook-form"
-import { Modal } from "flowbite-react"
+import { Modal, Button } from "flowbite-react"
 import Head from "next/head"
 
 type SsrProps = {
@@ -90,9 +90,11 @@ const ProfileField = ({ user }: ProfileFieldProps): JSX.Element => {
                 <Modal.Body>
                     <form onSubmit={handleSubmit(renameFunc)}>
                         <NameForm form={renameForm} />
-                        <button type="submit" className="border-2 border-black">
-                            Rename
-                        </button>
+                        <div className="flex justify-end">
+                            <Button type="submit" className="my-2">
+                                Rename
+                            </Button>
+                        </div>
                     </form>
                 </Modal.Body>
             </Modal>
