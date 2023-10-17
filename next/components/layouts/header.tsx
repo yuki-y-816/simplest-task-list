@@ -36,7 +36,7 @@ const Header = (): JSX.Element => {
 
     return (
         <Navbar fluid={true} rounded={true} className="border-b border-slate-300">
-            <Navbar.Brand href="/">SIMPLE TO DO</Navbar.Brand>
+            <Navbar.Brand href="/">SIMPLEST TASK LIST</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>{navLinks}</Navbar.Collapse>
         </Navbar>
